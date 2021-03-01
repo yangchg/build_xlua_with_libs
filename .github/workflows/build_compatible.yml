@@ -27,7 +27,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: ./build/plugin_lua53/**/*
-          name: plugin_lua53     
+          name: plugin_lua53
+          
   ios:
     runs-on: macos-latest
 
