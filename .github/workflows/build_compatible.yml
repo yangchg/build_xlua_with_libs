@@ -21,12 +21,14 @@ jobs:
       - name: Build
         run: |
           cd build
+          chmod +x make_android_lua53_compatible.sh
           ./make_android_lua53_compatible.sh
       - name: Upload53
         uses: actions/upload-artifact@v2
         with:
           path: ./build/plugin_lua53/**/*
-          name: plugin_lua53     
+          name: plugin_lua53
+          
   ios:
     runs-on: macos-latest
 
@@ -35,6 +37,7 @@ jobs:
       - name: Build
         run: |
           cd build
+          chmod +x make_ios_lua53_compatible.sh
           ./make_ios_lua53_compatible.sh
       - name: Upload53
         uses: actions/upload-artifact@v2
@@ -49,6 +52,7 @@ jobs:
       - name: Build
         run: |
           cd build
+          chmod +x make_osx_lua53_compatible.sh
           ./make_osx_lua53_compatible.sh
       - name: Upload53
         uses: actions/upload-artifact@v2
