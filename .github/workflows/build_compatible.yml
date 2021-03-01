@@ -1,0 +1,80 @@
+name: build_compatible
+
+on: 
+  push:
+    paths: 
+      - build/**
+      - .github/workflows/build_compatible.yml
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r15c-linux-x86_64.zip
+          sudo apt install unzip -y
+          unzip -q NDK
+          ANDROID_NDK_HOME=$(pwd)/android-ndk-r15c
+      - name: Build
+        run: |
+          cd build
+          ./make_android_lua53_compatible.sh
+      - name: Upload53
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./build/plugin_lua53/**/*
+          name: plugin_lua53     
+  ios:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd build
+          ./make_ios_lua53_compatible.sh
+      - name: Upload53
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./build/plugin_lua53/**/*
+          name: plugin_lua53   
+  osx:
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd build
+          ./make_osx_lua53_compatible.sh
+      - name: Upload53
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./build/plugin_lua53/**/*
+          name: plugin_lua53    
+  windows:
+    runs-on: windows-2016
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Insatll MSVC
+        uses: microsoft/setup-msbuild@v1.0.2
+      
+      - name: Build
+        run: |
+          cd build
+          .\make_win32_lua53_compatible.bat
+          .\make_win64_lua53_compatible.bat
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Upload53
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./build/plugin_lua53/**/*
+          name: plugin_lua53   
+    
+
+   
